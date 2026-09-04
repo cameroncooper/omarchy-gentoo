@@ -21,40 +21,46 @@ under `/usr/share/omarchy` and keeps Gentoo compatibility in a separate package.
 Zoom, Spotify, 1Password, and other proprietary applications are never
 dependencies of the minimal desktop. Install those explicitly if wanted.
 
-## Install on Gentoo
+## Install as an unregistered overlay
 
-Until Hyprland and Quickshell ebuilds are carried here, enable their existing
-repositories:
+Omarchy-Gentoo currently depends on Hyprland from hyproverlay and Quickshell
+from GURU:
 
 ```bash
+emerge --ask app-eselect/eselect-repository
 eselect repository enable hyproverlay guru
 emaint sync -r hyproverlay
 emaint sync -r guru
 ```
 
-Register this checkout as a local repository:
+Add this Git repository using Portage's native repository manager:
 
-```ini
-# /etc/portage/repos.conf/omarchy-gentoo.conf
-[omarchy-gentoo]
-location = /path/to/omarchy-gentoo
-masters = gentoo
-auto-sync = no
+```bash
+eselect repository add omarchy-gentoo git https://github.com/cameroncooper/omarchy-gentoo.git
+emaint sync -r omarchy-gentoo
 ```
 
 Then:
 
 ```bash
-emerge --ask gui-apps/omarchy-desktop
-omarchy-user-init
+emerge --ask --verbose --autounmask-write gui-apps/omarchy-desktop
+dispatch-conf
+emerge --ask --verbose gui-apps/omarchy-desktop
 ```
 
 Select `Omarchy` in a Wayland session chooser or run
 `omarchy-gentoo-session` from a graphical VT.
 
-The first session initializes only missing files under `~/.config` and
-`~/.local/state`; it never uses `rsync --delete` and never overwrites user
-configuration.
+The first session automatically initializes only missing files under
+`~/.config` and `~/.local/state`; it never uses `rsync --delete` and never
+overwrites user configuration.
+
+Updates use the normal Gentoo flow:
+
+```bash
+emaint sync -r omarchy-gentoo
+emerge --ask --update --deep --newuse @world
+```
 
 ## Compatibility boundary
 
