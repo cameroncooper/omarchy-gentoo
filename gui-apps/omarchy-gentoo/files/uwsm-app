@@ -1,0 +1,11 @@
+#!/bin/bash
+# Compatibility wrapper for systems where UWSM is not packaged.
+set -euo pipefail
+
+[[ ${1:-} == "--" ]] && shift
+(( $# > 0 )) || {
+  echo "uwsm-app: missing command" >&2
+  exit 64
+}
+
+exec "$@"

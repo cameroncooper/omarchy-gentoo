@@ -1,0 +1,9 @@
+#!/bin/bash
+set -euo pipefail
+
+version_file="${OMARCHY_PATH:-/usr/share/omarchy}/version"
+if [[ -r $version_file ]]; then
+  printf 'Omarchy %s (Gentoo integration)\n' "$(<"$version_file")"
+else
+  echo "Omarchy (Gentoo integration)"
+fi

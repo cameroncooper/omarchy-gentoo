@@ -1,0 +1,2 @@
+# Integration currently requires systemd user services and Hyprland.
+# This repository does not support OpenRC-only Omarchy sessions yet.

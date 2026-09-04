@@ -1,0 +1,11 @@
+#!/bin/bash
+# Return true when any named upstream package is absent on Gentoo.
+set -euo pipefail
+
+(( $# > 0 )) || exit 1
+
+for package in "$@"; do
+  omarchy-pkg-present "$package" || exit 0
+done
+
+exit 1

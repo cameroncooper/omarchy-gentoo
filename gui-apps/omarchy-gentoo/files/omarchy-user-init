@@ -1,0 +1,122 @@
+#!/bin/bash
+# Initialize Omarchy-owned user state without overwriting user configuration.
+set -euo pipefail
+
+mode=normal
+case "${1:-}" in
+  "") ;;
+  --if-needed) mode=if-needed ;;
+  --force) mode=force ;;
+  --migrate-prototype) mode=migrate-prototype ;;
+  -h|--help)
+    cat <<'EOF'
+Usage: omarchy-user-init [--if-needed|--force|--migrate-prototype]
+
+Creates missing Omarchy and Hyprland user files from /usr/share/omarchy.
+Existing files are never overwritten. --force reruns initialization checks;
+it still preserves user files.
+
+--migrate-prototype backs up and replaces only the old Omarchy-Gentoo
+prototype-generated Hyprland directory. It does nothing to an upstream or
+unrecognized user configuration.
+EOF
+    exit 0
+    ;;
+  *)
+    echo "omarchy-user-init: unknown option: $1" >&2
+    exit 64
+    ;;
+esac
+
+export OMARCHY_PATH="${OMARCHY_PATH:-/usr/share/omarchy}"
+[[ -d $OMARCHY_PATH/config && -d $OMARCHY_PATH/default ]] || {
+  echo "omarchy-user-init: incomplete Omarchy tree at $OMARCHY_PATH" >&2
+  exit 1
+}
+
+config_home="${XDG_CONFIG_HOME:-$HOME/.config}"
+state_home="${XDG_STATE_HOME:-$HOME/.local/state}"
+cache_home="${XDG_CACHE_HOME:-$HOME/.cache}"
+state_dir="$state_home/omarchy"
+marker="$state_dir/gentoo-initialized"
+upstream_version="$(<"$OMARCHY_PATH/version")"
+target_version="${upstream_version}:gentoo-3"
+
+mkdir -p "$state_dir" "$cache_home/omarchy"
+exec 9>"$state_dir/gentoo-init.lock"
+flock 9
+
+if [[ $mode == if-needed && -r $marker && $(<"$marker") == "$target_version" ]]; then
+  exit 0
+fi
+
+copy_missing_tree() {
+  local source="$1"
+  local destination="$2"
+  local relative target
+
+  [[ -d $source ]] || return 0
+  while IFS= read -r -d '' relative; do
+    relative="${relative#./}"
+    target="$destination/$relative"
+    if [[ -d $source/$relative ]]; then
+      mkdir -p "$target"
+    elif [[ ! -e $target ]]; then
+      mkdir -p "${target%/*}"
+      cp -a "$source/$relative" "$target"
+    fi
+  done < <(cd "$source" && find . -mindepth 1 -print0)
+}
+
+if [[ $mode == migrate-prototype ]]; then
+  migration_root="$state_dir/prototype-backups/$(date -u +%Y%m%dT%H%M%SZ)"
+  prototype_entrypoint="$config_home/hypr/hyprland.lua"
+  if [[ -f $prototype_entrypoint ]] &&
+      grep -q '^-- Omarchy-Gentoo Hyprland entrypoint\.$' "$prototype_entrypoint"; then
+    backup="$migration_root/hypr"
+    mkdir -p "${backup%/*}"
+    cp -a "$config_home/hypr" "$backup"
+    rm -rf "$config_home/hypr"
+    mkdir -p "$config_home/hypr"
+    cp -a "$OMARCHY_PATH/config/hypr/." "$config_home/hypr/"
+    printf 'Backed up prototype Hyprland config to %s\n' "$backup"
+  fi
+
+  for profile in "$HOME/.bash_profile" "$HOME/.profile"; do
+    [[ -f $profile ]] || continue
+    if grep -q '^export OMARCHY_PATH="\$HOME/\.local/share/omarchy"$' "$profile"; then
+      mkdir -p "$migration_root"
+      cp -a "$profile" "$migration_root/${profile##*/}"
+      clean_profile=$(mktemp)
+      awk '
+        /^# Omarchy-Gentoo$/ { prototype_block=1; next }
+        prototype_block && /^export OMARCHY_PATH="\$HOME\/\.local\/share\/omarchy"$/ { next }
+        prototype_block && /^export PATH="\$OMARCHY_PATH\/bin:\$HOME\/\.local\/bin:\$PATH"$/ { next }
+        prototype_block && /^[[:space:]]*$/ { prototype_block=0; next }
+        { prototype_block=0; print }
+      ' "$profile" > "$clean_profile"
+      cat "$clean_profile" > "$profile"
+      rm -f "$clean_profile"
+      printf 'Backed up and removed prototype environment from %s\n' "$profile"
+    fi
+  done
+fi
+
+# These are the two configuration surfaces required to boot the upstream
+# desktop. Application configs remain opt-in and can be copied with
+# `omarchy-refresh-config` when the corresponding application is installed.
+copy_missing_tree "$OMARCHY_PATH/config/hypr" "$config_home/hypr"
+copy_missing_tree "$OMARCHY_PATH/config/omarchy" "$config_home/omarchy"
+
+mkdir -p "$config_home/omarchy/branding"
+[[ -e $config_home/omarchy/branding/about.txt ]] ||
+  cp "$OMARCHY_PATH/icon.txt" "$config_home/omarchy/branding/about.txt"
+[[ -e $config_home/omarchy/branding/screensaver.txt ]] ||
+  cp "$OMARCHY_PATH/logo.txt" "$config_home/omarchy/branding/screensaver.txt"
+
+if [[ ! -s $state_dir/current/theme.name ]]; then
+  OMARCHY_THEME_HEADLESS=1 omarchy-theme-set "Tokyo Night"
+fi
+
+printf '%s\n' "$target_version" > "$marker"
+printf 'Omarchy user state initialized for %s\n' "$upstream_version"

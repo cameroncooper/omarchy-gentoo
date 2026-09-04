@@ -1,0 +1,17 @@
+#!/bin/bash
+# Return true when every upstream package name has a Gentoo installation.
+set -euo pipefail
+
+(( $# > 0 )) || exit 0
+
+mapfile -t installed < <(omarchy-pkg-list)
+declare -A package_set=()
+for package in "${installed[@]}"; do
+  package_set["$package"]=1
+done
+
+for package in "$@"; do
+  package="${package%%[<>=]*}"
+  package="${package#*/}"
+  [[ -n ${package_set[$package]-} ]] || exit 1
+done

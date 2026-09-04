@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Omarchy
+Comment=Omarchy desktop on Gentoo
+Exec=omarchy-gentoo-session
+Type=Application
+DesktopNames=Hyprland

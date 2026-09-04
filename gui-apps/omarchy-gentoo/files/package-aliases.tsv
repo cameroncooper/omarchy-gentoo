@@ -1,0 +1,9 @@
+# Upstream package name	Gentoo package atom
+nvim	app-editors/neovim
+noto-fonts	media-fonts/noto
+noto-fonts-cjk	media-fonts/noto-cjk
+noto-fonts-emoji	media-fonts/noto-emoji
+qt6-imageformats	dev-qt/qtimageformats
+ttf-jetbrains-mono-nerd-basic	media-fonts/jetbrains-mono
+woff2-font-awesome	media-fonts/fontawesome
+xdg-desktop-portal-hyprland	gui-libs/xdg-desktop-portal-hyprland

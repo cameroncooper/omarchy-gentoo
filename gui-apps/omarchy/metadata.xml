@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>maintainer-needed@gentoo.invalid</email>
+    <name>Omarchy Gentoo overlay maintainers</name>
+  </maintainer>
+  <upstream>
+    <remote-id type="github">omacom/omarchy</remote-id>
+  </upstream>
+  <longdescription>
+    Installs a pinned, nearly complete upstream Omarchy runtime tree under
+    /usr/share/omarchy. Distribution integration and public commands are
+    provided separately by gui-apps/omarchy-gentoo.
+  </longdescription>
+</pkgmetadata>

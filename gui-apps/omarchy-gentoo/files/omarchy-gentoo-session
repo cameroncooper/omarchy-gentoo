@@ -1,0 +1,36 @@
+#!/bin/bash
+set -euo pipefail
+
+export OMARCHY_PATH=/usr/share/omarchy
+export XDG_SESSION_TYPE=wayland
+export XDG_CURRENT_DESKTOP=Hyprland
+export XDG_SESSION_DESKTOP=Hyprland
+# Packaged commands must win over prototype-era ~/.local copies. Keep user
+# tools available, but append them as upstream's env-bootstrap does.
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+[[ ! -d $HOME/.local/share/mise/shims ]] ||
+  PATH="$PATH:$HOME/.local/share/mise/shims"
+[[ ! -d $HOME/.local/bin ]] || PATH="$PATH:$HOME/.local/bin"
+
+omarchy-user-init --if-needed
+
+[[ -s ${XDG_CONFIG_HOME:-$HOME/.config}/hypr/hyprland.lua ]] || {
+  echo "omarchy-gentoo-session: user initialization did not create hyprland.lua" >&2
+  exit 1
+}
+
+watchdog=""
+for candidate in /usr/bin/start-hyprland /bin/start-hyprland; do
+  if [[ -x $candidate ]]; then
+    watchdog="$candidate"
+    break
+  fi
+done
+
+[[ -n $watchdog ]] || {
+  echo "omarchy-gentoo-session: Hyprland watchdog not found" >&2
+  exit 1
+}
+
+cd "$HOME"
+exec "$watchdog" "$@"

@@ -1,0 +1,12 @@
+#!/bin/bash
+# Keep the upstream update widget useful without invoking pacman or syncing.
+set -euo pipefail
+
+if emerge --pretend --update --deep --newuse --with-bdeps=y @world 2>/dev/null |
+    grep -qE '^\[ebuild[[:space:]]'; then
+  echo "Gentoo package updates are available"
+  exit 0
+fi
+
+echo "Gentoo system is up to date"
+exit 1

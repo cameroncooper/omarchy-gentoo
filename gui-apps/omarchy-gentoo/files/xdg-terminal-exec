@@ -1,0 +1,42 @@
+#!/bin/bash
+# Small xdg-terminal-exec implementation for the Omarchy command contract.
+set -euo pipefail
+
+directory=""
+while (( $# )); do
+  case "$1" in
+    --dir=*) directory="${1#*=}"; shift ;;
+    --dir) directory="${2:?--dir requires a value}"; shift 2 ;;
+    --app-id=*|--title=*) shift ;;
+    --) shift; break ;;
+    -*) break ;;
+    *) break ;;
+  esac
+done
+
+[[ -z $directory ]] || cd "$directory"
+
+terminal="${TERMINAL:-}"
+if [[ -z $terminal ]]; then
+  for candidate in foot alacritty kitty; do
+    if command -v "$candidate" >/dev/null 2>&1; then
+      terminal="$candidate"
+      break
+    fi
+  done
+fi
+
+[[ -n $terminal ]] || {
+  echo "xdg-terminal-exec: install foot, alacritty, or kitty" >&2
+  exit 69
+}
+
+if (( $# == 0 )); then
+  exec "$terminal"
+fi
+
+case "${terminal##*/}" in
+  foot) exec "$terminal" "$@" ;;
+  alacritty|kitty) exec "$terminal" -e "$@" ;;
+  *) exec "$terminal" "$@" ;;
+esac

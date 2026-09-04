@@ -1,0 +1,23 @@
+#!/bin/bash
+# Print installed package names in the format Omarchy menu guards consume.
+set -euo pipefail
+
+aliases=/usr/share/omarchy-gentoo/package-aliases.tsv
+installed="$(mktemp)"
+trap 'rm -f "$installed"' EXIT
+
+qlist -IC 2>/dev/null |
+  awk -F/ 'NF == 2 { print $2 }' |
+  LC_ALL=C sort -u > "$installed"
+
+cat "$installed"
+
+if [[ -r $aliases ]]; then
+  while IFS=$'\t' read -r upstream atom; do
+    [[ -n $upstream && $upstream != \#* && -n $atom ]] || continue
+    gentoo_name="${atom#*/}"
+    if grep -qxF "$gentoo_name" "$installed"; then
+      printf '%s\n' "$upstream"
+    fi
+  done < "$aliases"
+fi

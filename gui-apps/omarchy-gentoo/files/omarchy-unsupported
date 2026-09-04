@@ -1,0 +1,14 @@
+#!/bin/bash
+set -u
+
+command_name="${0##*/}"
+
+cat >&2 <<EOF
+${command_name}: unavailable in the Gentoo compatibility milestone
+
+This command performs Arch package, install, remove, migration, or update
+administration. Omarchy-Gentoo intentionally does not emulate pacman or report
+false success. Use Portage directly for now.
+EOF
+
+exit 69

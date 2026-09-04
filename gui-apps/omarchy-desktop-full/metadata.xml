@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+  <maintainer type="person">
+    <email>maintainer-needed@gentoo.org</email>
+    <name>Omarchy Gentoo overlay maintainers</name>
+  </maintainer>
+  <use>
+    <flag name="development">Install Omarchy's core editor and shell tools</flag>
+    <flag name="media">Install image and video viewers</flag>
+    <flag name="office">Install LibreOffice</flag>
+  </use>
+  <longdescription>
+    Convenience dependencies only. Proprietary applications such as Zoom,
+    Spotify, and 1Password are deliberately excluded and remain explicit
+    user choices.
+  </longdescription>
+</pkgmetadata>

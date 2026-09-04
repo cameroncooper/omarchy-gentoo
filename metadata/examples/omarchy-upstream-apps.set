@@ -1,0 +1,17 @@
+# Copy this file to /etc/portage/sets/omarchy-upstream-apps and edit it.
+# It is intentionally not a dependency contract: these are personal apps.
+
+app-editors/neovim
+app-misc/tmux
+app-shells/fzf
+dev-vcs/git
+media-gfx/imv
+media-video/mpv
+sys-apps/fd
+sys-apps/ripgrep
+www-client/chromium
+
+# Proprietary applications are never pulled by the minimal desktop.
+# Add their overlay atoms here only after reviewing their licenses.
+# net-im/zoom
+# media-sound/spotify

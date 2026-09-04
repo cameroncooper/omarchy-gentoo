@@ -1,0 +1,10 @@
+.state/artifacts/
+.state/vm/
+.state/logs/
+.state/seed/
+.state/ssh/id_*
+!.state/ssh/.gitkeep
+*.qcow2
+*.img
+*.iso
+!scripts/qemu/seed/**

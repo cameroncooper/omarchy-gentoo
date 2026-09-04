@@ -1,0 +1,9 @@
+#!/bin/bash
+# Gentoo owns provisioning; initialize only Omarchy's per-user desktop state.
+set -euo pipefail
+
+if [[ ${1:-} == "--force" ]]; then
+  exec omarchy-user-init --force
+fi
+
+exec omarchy-user-init --if-needed
