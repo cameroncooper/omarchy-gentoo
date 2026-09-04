@@ -50,8 +50,8 @@ emaint sync -r omarchy-gentoo
 ```
 
 Hyproverlay currently keywords its released Hyprland stack only for amd64.
-On arm64, accept those released ebuilds explicitly (the Omarchy-Gentoo
-repository masks their live `9999` counterparts):
+On arm64, accept those released ebuilds explicitly (the desktop metapackage
+constrains its Hyprland dependency graph to versions below `9999`):
 
 ```bash
 mkdir -p /etc/portage/package.accept_keywords

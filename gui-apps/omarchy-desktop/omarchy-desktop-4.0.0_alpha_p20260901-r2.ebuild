@@ -13,11 +13,19 @@ RDEPEND="
 	~gui-apps/omarchy-gentoo-${PV}
 	~x11-themes/omarchy-themes-${PV}
 	app-misc/jq
+	<dev-libs/hyprgraphics-9999
+	<dev-libs/hyprlang-9999
 	dev-qt/qtimageformats:6
 	gui-apps/foot
 	>=gui-apps/quickshell-0.3[policykit?]
 	<gui-apps/quickshell-0.4
 	gui-apps/wl-clipboard
+	<gui-libs/aquamarine-9999
+	<gui-libs/hyprcursor-9999
+	<gui-libs/hyprland-guiutils-9999
+	<gui-libs/hyprtoolkit-9999
+	<gui-libs/hyprutils-9999
+	<gui-libs/hyprwire-9999
 	<gui-libs/xdg-desktop-portal-hyprland-9999
 	>=gui-wm/hyprland-0.56
 	<gui-wm/hyprland-0.57
@@ -38,4 +46,9 @@ RDEPEND="
 		gui-apps/grim
 		gui-apps/slurp
 	)
+"
+
+BDEPEND="
+	<dev-libs/hyprland-protocols-9999
+	<dev-util/hyprwayland-scanner-9999
 "
