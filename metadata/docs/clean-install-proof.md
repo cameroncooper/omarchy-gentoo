@@ -20,8 +20,8 @@ Installed package versions:
 
 ```text
 gui-apps/omarchy-4.0.0_alpha_p20260901
-gui-apps/omarchy-gentoo-4.0.0_alpha_p20260901-r1
-gui-apps/omarchy-desktop-4.0.0_alpha_p20260901-r2
+gui-apps/omarchy-gentoo-4.0.0_alpha_p20260901-r2
+gui-apps/omarchy-desktop-4.0.0_alpha_p20260901-r3
 gui-apps/quickshell-0.3.0-r1
 gui-wm/hyprland-0.56.2
 dev-libs/wayland-1.26.0
@@ -30,6 +30,7 @@ dev-libs/wayland-1.26.0
 Runtime checks passed:
 
 - Hyprland and Quickshell started after reboot.
+- Hyprland used the normal packaged Adwaita pointer instead of its logo fallback.
 - Quickshell ran from `/usr/share/omarchy/shell`.
 - The packaged tree contained 441 upstream commands and 22 themes.
 - `omarchy-shell shell ping` and `omarchy-menu summon` returned `ok`.

@@ -5,6 +5,10 @@ export OMARCHY_PATH=/usr/share/omarchy
 export XDG_SESSION_TYPE=wayland
 export XDG_CURRENT_DESKTOP=Hyprland
 export XDG_SESSION_DESKTOP=Hyprland
+# Omarchy relies on the platform's normal pointer theme. Gentoo does not
+# install a system-wide "default" cursor alias, so select packaged Adwaita
+# unless the user already chose another XCursor theme.
+export XCURSOR_THEME="${XCURSOR_THEME:-Adwaita}"
 # Packaged commands must win over prototype-era ~/.local copies. Keep user
 # tools available, but append them as upstream's env-bootstrap does.
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"

@@ -38,6 +38,7 @@ RDEPEND="
 	sys-apps/dbus
 	sys-apps/xdg-desktop-portal
 	sys-apps/xdg-desktop-portal-gtk
+	x11-themes/adwaita-icon-theme
 	bluetooth? ( net-wireless/bluez )
 	networkmanager? ( net-misc/networkmanager )
 	notifications? ( x11-libs/libnotify )

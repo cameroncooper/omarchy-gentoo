@@ -31,6 +31,10 @@ have_cmd omarchy-pkg-list || die "Portage package backend missing"
 have_cmd omarchy-gentoo-session || die "Gentoo session missing"
 have_cmd quickshell || die "Quickshell dependency missing"
 have_cmd Hyprland || die "Hyprland dependency missing"
+[[ -f /usr/share/icons/Adwaita/cursors/left_ptr ]] \
+  || die "normal Adwaita pointer theme missing"
+grep -q 'XCURSOR_THEME.*Adwaita' /usr/bin/omarchy-gentoo-session \
+  || die "session does not select the normal pointer theme"
 omarchy-version | grep -q 'Gentoo integration' || die "Gentoo version adapter inactive"
 set +e
 omarchy-update >/tmp/omarchy-unsupported.out 2>&1
