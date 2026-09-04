@@ -26,6 +26,7 @@ RDEPEND="
 	media-fonts/symbols-nerd-font
 	media-video/pipewire
 	media-video/wireplumber
+	>=dev-libs/wayland-1.25
 	sys-apps/dbus
 	sys-apps/xdg-desktop-portal
 	sys-apps/xdg-desktop-portal-gtk

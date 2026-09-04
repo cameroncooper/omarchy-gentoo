@@ -23,6 +23,15 @@ dependencies of the minimal desktop. Install those explicitly if wanted.
 
 ## Install as an unregistered overlay
 
+Use a systemd desktop profile. If the system is currently on a non-desktop
+profile, select the matching `desktop/systemd` profile and update it first:
+
+```bash
+eselect profile list
+eselect profile set <desktop-systemd-profile-number>
+emerge --ask --update --deep --newuse @world
+```
+
 Omarchy-Gentoo currently depends on Hyprland from hyproverlay and Quickshell
 from GURU:
 
@@ -40,10 +49,19 @@ eselect repository add omarchy-gentoo git https://github.com/cameroncooper/omarc
 emaint sync -r omarchy-gentoo
 ```
 
+Hyproverlay currently keywords its released Hyprland stack only for amd64.
+On arm64, accept those released ebuilds explicitly (the Omarchy-Gentoo
+repository masks their live `9999` counterparts):
+
+```bash
+mkdir -p /etc/portage/package.accept_keywords
+echo '*/*::hyproverlay **' > /etc/portage/package.accept_keywords/omarchy-hyproverlay
+```
+
 Then:
 
 ```bash
-emerge --ask --verbose --autounmask-write gui-apps/omarchy-desktop
+emerge --ask --verbose --autounmask=y --autounmask-write=y --autounmask-backtrack=y gui-apps/omarchy-desktop
 dispatch-conf
 emerge --ask --verbose gui-apps/omarchy-desktop
 ```

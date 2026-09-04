@@ -17,7 +17,7 @@ for required in \
   "gui-apps/omarchy/omarchy-${VERSION}.ebuild" \
   "gui-apps/omarchy-gentoo/omarchy-gentoo-${VERSION}.ebuild" \
   "x11-themes/omarchy-themes/omarchy-themes-${VERSION}.ebuild" \
-  "gui-apps/omarchy-desktop/omarchy-desktop-${VERSION}.ebuild"; do
+  "gui-apps/omarchy-desktop/omarchy-desktop-${VERSION}-r1.ebuild"; do
   [[ -s $ROOT/$required ]] || fail "missing $required"
 done
 

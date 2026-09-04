@@ -1,0 +1,17 @@
+# Keep the packaged desktop on released Hyprland components. Users who
+# intentionally test live packages can unmask individual atoms locally.
+=dev-libs/hyprgraphics-9999::hyproverlay
+=dev-libs/hyprland-protocols-9999::hyproverlay
+=dev-libs/hyprlang-9999::hyproverlay
+=dev-util/hyprwayland-scanner-9999::hyproverlay
+=gui-apps/hypridle-9999::hyproverlay
+=gui-apps/hyprlock-9999::hyproverlay
+=gui-apps/hyprpaper-9999::hyproverlay
+=gui-libs/aquamarine-9999::hyproverlay
+=gui-libs/hyprcursor-9999::hyproverlay
+=gui-libs/hyprland-guiutils-9999::hyproverlay
+=gui-libs/hyprtoolkit-9999::hyproverlay
+=gui-libs/hyprutils-9999::hyproverlay
+=gui-libs/hyprwire-9999::hyproverlay
+=gui-libs/xdg-desktop-portal-hyprland-9999::hyproverlay
+=gui-wm/hyprland-9999::hyproverlay
