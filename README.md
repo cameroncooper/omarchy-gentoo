@@ -66,6 +66,14 @@ dispatch-conf
 emerge --ask --verbose gui-apps/omarchy-desktop
 ```
 
+If the corresponding default USE flags remain enabled, activate the system
+services once:
+
+```bash
+systemctl enable --now NetworkManager.service
+systemctl enable --now bluetooth.service
+```
+
 Select `Omarchy` in a Wayland session chooser or run
 `omarchy-gentoo-session` from a graphical VT.
 

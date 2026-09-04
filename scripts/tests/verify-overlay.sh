@@ -15,7 +15,7 @@ for required in \
   profiles/repo_name \
   dev-qt/qtimageformats/qtimageformats-6.11.2.ebuild \
   "gui-apps/omarchy/omarchy-${VERSION}.ebuild" \
-  "gui-apps/omarchy-gentoo/omarchy-gentoo-${VERSION}.ebuild" \
+  "gui-apps/omarchy-gentoo/omarchy-gentoo-${VERSION}-r1.ebuild" \
   "x11-themes/omarchy-themes/omarchy-themes-${VERSION}.ebuild" \
   "gui-apps/omarchy-desktop/omarchy-desktop-${VERSION}-r2.ebuild"; do
   [[ -s $ROOT/$required ]] || fail "missing $required"

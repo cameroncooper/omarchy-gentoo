@@ -14,6 +14,18 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 omarchy-user-init --if-needed
 
+# Gentoo installs user units without enabling them. Start the multimedia
+# services required by the shell and screencast portal for this session.
+if command -v systemctl >/dev/null 2>&1; then
+  media_units=(pipewire.socket wireplumber.service)
+  if systemctl --user list-unit-files pipewire-pulse.socket \
+      --no-legend >/dev/null 2>&1; then
+    media_units+=(pipewire-pulse.socket)
+  fi
+  systemctl --user start "${media_units[@]}" || \
+    echo "omarchy-gentoo-session: warning: could not start PipeWire services" >&2
+fi
+
 [[ -s ${XDG_CONFIG_HOME:-$HOME/.config}/hypr/hyprland.lua ]] || {
   echo "omarchy-gentoo-session: user initialization did not create hyprland.lua" >&2
   exit 1
