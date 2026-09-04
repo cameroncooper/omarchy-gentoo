@@ -9,7 +9,9 @@ shift || true
 
 DISPLAY_MODE="${DISPLAY_MODE:-none}" # none | cocoa
 GUI_XRES="${GUI_XRES:-1280}"
-GUI_YRES="${GUI_YRES:-800}"
+# AArch64 EDK2's text console needs enough height for at least 25 rows.
+# 800px can select a GOP mode that trips GraphicsConsoleDxe on warm reboot.
+GUI_YRES="${GUI_YRES:-900}"
 
 qemu_running() {
   if [[ -f "$PIDFILE" ]]; then

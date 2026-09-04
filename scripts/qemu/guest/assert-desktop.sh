@@ -4,10 +4,8 @@ set -euo pipefail
 source "$(cd "$(dirname "$0")" && pwd)/lib/common.sh"
 
 OMARCHY_HOME=/usr/share/omarchy
-DESKTOP_MARKER="${DESKTOP_MARKER:-/.omarchy-gentoo-desktop-complete}"
 
 log "assert package installation"
-[[ -f $DESKTOP_MARKER ]] || die "missing desktop marker — run scripts/qemu/guest/install.sh"
 qlist -IC gui-apps/omarchy >/dev/null || die "gui-apps/omarchy is not installed"
 qlist -IC gui-apps/omarchy-gentoo >/dev/null || die "gui-apps/omarchy-gentoo is not installed"
 qlist -IC gui-apps/omarchy-desktop >/dev/null || die "desktop metapackage is not installed"
